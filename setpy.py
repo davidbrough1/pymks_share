@@ -41,7 +41,7 @@ def getVersion(version, release=True):
         return version + '-dev.' + _git_version
 
 setup(name='pymks_share',
-      version=getVersion('0.1', release=True),
+      version=getVersion('0.1', release=False),
       description='Support Package for PyMKS for easy access to datasets',
       author='David Brough',
       author_email='david.brough.0416@gmail.com',
