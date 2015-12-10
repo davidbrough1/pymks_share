@@ -62,9 +62,9 @@ class DataManager(MongoClient):
         db_dict = {'dataset_name': dataset_name,
                    'has_response_data': has_response_data,
                    'n_datasets': n_datasets}
+        db.data.insert_many(data_dicts)
         db.db_metadata.insert_one(db_dict)
         db.metadata.insert_one(meta_data_dict)
-        db.data.insert_many(data_dicts)
 
     def _create_data_dicts(self, structure_data, response_data, dataset_name):
         slices = self._get_slices(structure_data)
@@ -92,4 +92,7 @@ class DataManager(MongoClient):
         if n_slices > len(data):
             raise RuntimeError('data is too large to load')
         indices = np.ceil(np.linspace(0, len(data), n_slices))
-        return [slice(s0, s1) for s0, s1 in zip(indices[:-1], indices[1:])]
+        if len(indices) <= 1:
+            return [slice(None)]
+        else:
+            return [slice(s0, s1) for s0, s1 in zip(indices[:-1], indices[1:])]
