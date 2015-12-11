@@ -88,7 +88,7 @@ class DataManager(MongoClient):
     def _get_slices(self, data):
         if data is None:
             return [None]
-        n_slices = data.nbytes / 1.6e7 + 1
+        n_slices = data.nbytes / 1.0e7 + 1
         if n_slices > len(data):
             raise RuntimeError('data is too large to load')
         indices = np.ceil(np.linspace(0, len(data), n_slices))
